@@ -2,23 +2,39 @@ package httputil
 
 import (
 	"fmt"
+	"github.com/Bytesimal/goutils/pkg/util"
 	"github.com/PuerkitoBio/goquery"
 	"net/http"
 	"strconv"
 	"strings"
 	"sync"
+	"time"
 )
 
 func RQUntil(cli *http.Client, rq *http.Request) (rsp *http.Response, err error) {
 	err = fmt.Errorf("tmp")
 	for i := 0; i < 10; i++ {
 		if err != nil {
+			if i > 0 {
+				// Random sleep in millisecond
+				time.Sleep(time.Duration(util.Rand.Int63n(int64(time.Millisecond))))
+			}
 			rsp, err = cli.Do(rq)
 			continue
 		}
 		break
 	}
 	return
+}
+
+var macVs []string
+var IosVs []string
+var iosDevices = []string{"iPod", "iPhone", "iPad"}
+
+var webkitVs = map[string][]string{
+	"mac":     {},
+	"windows": {},
+	"ios":     {},
 }
 
 var updated bool
@@ -28,38 +44,6 @@ const std = "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_0) AppleWebKit/605.1.15 (
 func init() {
 	var wg sync.WaitGroup
 	var mainErr error
-
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-
-		// scrape iOS version list
-		rq, _ := http.NewRequest("GET", "https://www.gkgigs.com/list-apple-ios-version-history/", nil)
-		rq.Header.Set("User-Agent", std)
-		rsp, err := http.DefaultClient.Do(rq)
-		if err != nil {
-			if mainErr == nil {
-				mainErr = err
-			}
-			return
-		}
-		defer rsp.Body.Close()
-		page, err := goquery.NewDocumentFromReader(rsp.Body)
-		if err != nil {
-			if mainErr == nil {
-				mainErr = err
-			}
-			return
-		}
-
-		page.Find("figure.wp-block-table > table > tbody > tr").Each(func(_ int, sl *goquery.Selection) {
-			val := strings.TrimSpace(sl.Find("td").Get(0).FirstChild.Data)
-
-			if val != "strong" {
-				iosVs = append(iosVs, val)
-			}
-		})
-	}()
 
 	wg.Add(1)
 	go func() {
@@ -105,6 +89,46 @@ func init() {
 								macVs = append(macVs, e)
 								break
 							}
+						}
+					})
+				}
+			}
+		})
+	}()
+
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+
+		// scrape iOS version list
+		rq, _ := http.NewRequest("GET", "https://www.gkgigs.com/list-apple-ios-version-history/", nil)
+		rq.Header.Set("User-Agent", std)
+		rsp, err := http.DefaultClient.Do(rq)
+		if err != nil {
+			if mainErr == nil {
+				mainErr = err
+			}
+			return
+		}
+		defer rsp.Body.Close()
+		page, err := goquery.NewDocumentFromReader(rsp.Body)
+		if err != nil {
+			if mainErr == nil {
+				mainErr = err
+			}
+			return
+		}
+
+		page.Find("figure.wp-block-table > table").Each(func(_ int, sl *goquery.Selection) {
+			headings := sl.Find("thead > tr > th")
+			if headings.Length() > 0 {
+				title := sl.Find("thead > tr > th").Get(0).FirstChild.Data
+
+				if title == "Version" {
+					sl.Find("tbody > tr > td").Each(func(_ int, sl *goquery.Selection) {
+						vsNode := sl.Get(0).FirstChild.FirstChild
+						if vsNode != nil {
+							IosVs = append(IosVs, vsNode.Data)
 						}
 					})
 				}
@@ -206,19 +230,8 @@ func init() {
 	}
 }
 
-var macVs []string
-var iosVs []string
-var iosDevices = []string{"iPod", "iPhone", "iPad"}
-
-var webkitVs = map[string][]string{
-	"mac":     {},
-	"windows": {},
-	"ios":     {},
-}
-
 func RandUA() string {
-	return std
-	/*if !updated {
+	if !updated {
 		return std
 	}
 
@@ -253,8 +266,8 @@ func RandUA() string {
 		// iOS
 		ua += fmt.Sprintf("%s; CPU iPhone OS %s like Mac OS X) ",
 			iosDevices[util.Rand.Intn(len(iosDevices))],
-			strings.ReplaceAll(iosVs[util.Rand.Intn(len(iosVs))], ".", "_"))
+			strings.ReplaceAll(IosVs[util.Rand.Intn(len(IosVs))], ".", "_"))
 	}
 
-	return ua*/
+	return ua
 }
