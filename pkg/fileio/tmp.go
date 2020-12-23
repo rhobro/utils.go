@@ -9,17 +9,17 @@ import (
 	"strings"
 )
 
-var tmpDir string
+var TmpDir string
 
 func Init(inDir, name string) {
 	var err error
-	tmpDir, err = ioutil.TempDir(inDir, name)
+	TmpDir, err = ioutil.TempDir(inDir, name)
 	if err != nil {
 		rd := bufio.NewScanner(os.Stdin)
 		fmt.Println("Unable to create temp dir")
 		fmt.Print("Enter new temp dir: ")
 		rd.Scan()
-		tmpDir = rd.Text()
+		TmpDir = rd.Text()
 	}
 }
 
@@ -27,7 +27,7 @@ func TmpPath(path string) (string, error) {
 	// Make chain of paths
 	pthSplit := strings.Split(path, string(filepath.Separator))
 	totPath := make([]string, len(pthSplit)+1)
-	totPath[0] = tmpDir
+	totPath[0] = TmpDir
 	for i := 0; i < len(pthSplit); i++ {
 		totPath[i+1] = pthSplit[i]
 	}
