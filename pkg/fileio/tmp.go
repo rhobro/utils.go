@@ -11,9 +11,9 @@ import (
 
 var tmpDir string
 
-func Init(dir, pattern string) {
+func Init(inDir, name string) {
 	var err error
-	tmpDir, err = ioutil.TempDir(dir, pattern)
+	tmpDir, err = ioutil.TempDir(inDir, name)
 	if err != nil {
 		rd := bufio.NewScanner(os.Stdin)
 		fmt.Println("Unable to create temp dir")
