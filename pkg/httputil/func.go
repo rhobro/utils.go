@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/Bytesimal/goutils/pkg/util"
 	"github.com/PuerkitoBio/goquery"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -94,6 +95,8 @@ func init() {
 				}
 			}
 		})
+
+		log.Printf("{httputil} {UA} scraped macOS versions\n")
 	}()
 
 	// scrape iOS versions
@@ -134,6 +137,8 @@ func init() {
 				}
 			}
 		})
+
+		log.Printf("{httputil} {UA} scraped iOS versions\n")
 	}()
 
 	// scrape webkit versions
@@ -222,18 +227,22 @@ func init() {
 				}
 			}
 		})
+
+		log.Printf("{httputil} {UA} scraped webkit versions\n")
 	}()
 
-	// scrape safari versions
+	// scrape safari versions TODO
 	wg.Add(1)
 	go func() {
-
+		defer wg.Done()
+		log.Printf("{httputil} {UA} scraped safari versions\n")
 	}()
 
-	// scrape chrome versions
+	// scrape chrome versions TODO
 	wg.Add(1)
 	go func() {
-
+		defer wg.Done()
+		log.Printf("{httputil} {UA} scraped chrome versions\n")
 	}()
 
 	wg.Wait()
@@ -249,6 +258,7 @@ const (
 )
 
 func RandUA() string {
+	return std // TODO test
 	if !updated {
 		return std
 	}

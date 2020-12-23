@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="40dce8fe-2291-4d55-b1b6-966c6f39b313" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+    <list default="true" id="40dce8fe-2291-4d55-b1b6-966c6f39b313" name="Default Changelist" comment="removed .idea">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/httputil/func.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/httputil/func.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -78,7 +78,14 @@
       <option name="project" value="LOCAL" />
       <updated>1608501647812</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="changed logging for rand">
+      <created>1608722734514</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1608722734514</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -100,7 +107,9 @@
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Repaired ios version scrape" />
-    <option name="LAST_COMMIT_MESSAGE" value="Repaired ios version scrape" />
+    <MESSAGE value="changed logging for rand" />
+    <MESSAGE value="removed .idea" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed .idea" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
