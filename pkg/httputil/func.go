@@ -28,7 +28,7 @@ func RQUntil(cli *http.Client, rq *http.Request) (rsp *http.Response, err error)
 }
 
 var macVs []string
-var IosVs []string
+var iosVs []string
 var iosDevices = []string{"iPod", "iPhone", "iPad"}
 
 var webkitVs = map[string][]string{
@@ -45,11 +45,11 @@ func init() {
 	var wg sync.WaitGroup
 	var mainErr error
 
+	// scrape macOS versions
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
 
-		// scrape macOS version list
 		rq, _ := http.NewRequest("GET", "https://apple.fandom.com/wiki/List_of_Mac_OS_versions", nil)
 		rq.Header.Set("User-Agent", std)
 		rsp, err := http.DefaultClient.Do(rq)
@@ -96,11 +96,11 @@ func init() {
 		})
 	}()
 
+	// scrape iOS versions
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
 
-		// scrape iOS version list
 		rq, _ := http.NewRequest("GET", "https://www.gkgigs.com/list-apple-ios-version-history/", nil)
 		rq.Header.Set("User-Agent", std)
 		rsp, err := http.DefaultClient.Do(rq)
@@ -128,7 +128,7 @@ func init() {
 					sl.Find("tbody > tr > td").Each(func(_ int, sl *goquery.Selection) {
 						vsNode := sl.Get(0).FirstChild.FirstChild
 						if vsNode != nil {
-							IosVs = append(IosVs, vsNode.Data)
+							iosVs = append(iosVs, vsNode.Data)
 						}
 					})
 				}
@@ -136,11 +136,11 @@ func init() {
 		})
 	}()
 
+	// scrape webkit versions
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
 
-		// scrape webkit version list
 		rq, _ := http.NewRequest("GET", "https://en.wikipedia.org/wiki/Safari_version_history", nil)
 		rq.Header.Set("User-Agent", std)
 		rsp, err := http.DefaultClient.Do(rq)
@@ -224,11 +224,29 @@ func init() {
 		})
 	}()
 
+	// scrape safari versions
+	wg.Add(1)
+	go func() {
+
+	}()
+
+	// scrape chrome versions
+	wg.Add(1)
+	go func() {
+
+	}()
+
 	wg.Wait()
 	if mainErr == nil {
 		updated = true
 	}
 }
+
+const (
+	safari int = iota
+	chrome
+	firefox
+)
 
 func RandUA() string {
 	if !updated {
@@ -239,18 +257,21 @@ func RandUA() string {
 	switch util.Rand.Intn(3) {
 	case 0:
 		// macOS
-		vStr := macVs[util.Rand.Intn(len(macVs))]
-		vStr = strings.Join(strings.Split(vStr, ".")[2:], "_")
-		ua += fmt.Sprintf("Macintosh; Intel Mac OS X %s", vStr)
+		// bools
+		browser := util.Rand.Intn(3) // 0 = safari, 1 = firefox, 2 = chrome
 
-		// firefox
-		firefox := util.Rand.Intn(2) == 1
-		if firefox {
-			ua += "; rv:70.0"
+		ua += "Macintosh; Intel Mac OS X "
+		vStr := macVs[util.Rand.Intn(len(macVs))]
+
+		// add device vs
+		if browser == firefox {
+			ua += fmt.Sprintf("%s; rv:70.0", vStr)
+		} else {
+			ua += strings.ReplaceAll(vStr, ".", "_")
 		}
 		ua += ") "
 
-		if firefox {
+		if browser == firefox {
 			ua += "Gecko/20100101 Firefox/70.0"
 			return ua
 		} else {
@@ -258,7 +279,7 @@ func RandUA() string {
 			ua += fmt.Sprintf("AppleWebKit/%s  (KHTML, like Gecko) ", webkitVs["mac"][util.Rand.Intn(len(webkitVs["mac"]))])
 		}
 
-		// TODO add rv if gecko
+		// TODO safari and chrome version history
 	case 1:
 		// Windows
 		return std
@@ -266,7 +287,7 @@ func RandUA() string {
 		// iOS
 		ua += fmt.Sprintf("%s; CPU iPhone OS %s like Mac OS X) ",
 			iosDevices[util.Rand.Intn(len(iosDevices))],
-			strings.ReplaceAll(IosVs[util.Rand.Intn(len(IosVs))], ".", "_"))
+			strings.ReplaceAll(iosVs[util.Rand.Intn(len(iosVs))], ".", "_"))
 	}
 
 	return ua
