@@ -12,9 +12,9 @@ import (
 	"time"
 )
 
-func RQUntil(cli *http.Client, rq *http.Request) (rsp *http.Response, err error) {
+func RQUntil(cli *http.Client, rq *http.Request, count int) (rsp *http.Response, err error) {
 	err = fmt.Errorf("tmp")
-	for i := 0; i < 10; i++ {
+	for i := 0; i < count; i++ {
 		if err != nil {
 			if i > 0 {
 				// Random sleep in millisecond
@@ -38,11 +38,11 @@ var webkitVs = map[string][]string{
 	"ios":     {},
 }
 
-var updated bool
+var lazyHeaderInit sync.Once
 
 const std = "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_0) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.1 Safari/605.1.15"
 
-func init() {
+func initHeaders() {
 	var wg sync.WaitGroup
 	var mainErr error
 
@@ -246,28 +246,26 @@ func init() {
 	}()
 
 	wg.Wait()
-	if mainErr == nil {
-		updated = true
+	if mainErr != nil {
+		log.Printf("unable to scrape header lists: %s", mainErr)
+		lazyHeaderInit = sync.Once{}
 	}
 }
 
 const (
-	safari int = iota
+	safari = iota
 	chrome
 	firefox
 )
 
 func RandUA() string {
-	return std // TODO test
-	if !updated {
-		return std
-	}
+	lazyHeaderInit.Do(initHeaders)
 
 	ua := "Mozilla/5.0 ("
 	switch util.Rand.Intn(3) {
 	case 0:
 		// macOS
-		// bools
+		// bool
 		browser := util.Rand.Intn(3) // 0 = safari, 1 = firefox, 2 = chrome
 
 		ua += "Macintosh; Intel Mac OS X "
