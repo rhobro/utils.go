@@ -12,7 +12,6 @@ import (
 func init() {
 	now := time.Now().UnixNano()
 	Rand = rand.New(rand.NewSource(now))
-	log.Printf("{debug} rand source = %d", now)
 }
 
 var Rand *rand.Rand

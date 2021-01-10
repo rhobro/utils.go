@@ -95,8 +95,6 @@ func initHeaders() {
 				}
 			}
 		})
-
-		log.Printf("{httputil} {UA} scraped macOS versions\n")
 	}()
 
 	// scrape iOS versions
@@ -137,8 +135,6 @@ func initHeaders() {
 				}
 			}
 		})
-
-		log.Printf("{httputil} {UA} scraped iOS versions\n")
 	}()
 
 	// scrape webkit versions
@@ -227,22 +223,18 @@ func initHeaders() {
 				}
 			}
 		})
-
-		log.Printf("{httputil} {UA} scraped webkit versions\n")
 	}()
 
 	// scrape safari versions TODO
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		log.Printf("{httputil} {UA} scraped safari versions\n")
 	}()
 
 	// scrape chrome versions TODO
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		log.Printf("{httputil} {UA} scraped chrome versions\n")
 	}()
 
 	wg.Wait()
