@@ -1,3 +1,13 @@
+/*
+ * Copyright © 2021 NeuroByte Tech. All rights reserved.
+ *
+ * NeuroByte Tech is the Developer Company of Rohan Mathew.
+ *
+ * Project: goutils
+ * File Name: func.go
+ * Last Modified: 11/01/2021, 20:43
+ */
+
 package httputil
 
 import (
@@ -12,7 +22,13 @@ import (
 	"time"
 )
 
-func RQUntil(cli *http.Client, rq *http.Request, count int) (rsp *http.Response, err error) {
+const defaultRetries = 10
+
+func RQUntil(cli *http.Client, rq *http.Request) (*http.Response, error) {
+	return RQUntilCustom(cli, rq, defaultRetries)
+}
+
+func RQUntilCustom(cli *http.Client, rq *http.Request, count int) (rsp *http.Response, err error) {
 	err = fmt.Errorf("tmp")
 	for i := 0; i < count; i++ {
 		if err != nil {
