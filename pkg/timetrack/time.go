@@ -5,20 +5,18 @@
  *
  * Project: goutils
  * File Name: time.go
- * Last Modified: 13/01/2021, 16:12
+ * Last Modified: 15/01/2021, 08:30
  */
 
 package timetrack
 
 import (
 	"fmt"
-	"sync"
 	"time"
 )
 
 var t = time.Now()
 var totStart = time.Now()
-var initOnce sync.Once
 
 func Init() {
 	t = time.Now()
@@ -26,7 +24,6 @@ func Init() {
 }
 
 func SinceLast(s string) {
-	initOnce.Do(Init)
 	fmt.Printf("%20s : %v\n", s, time.Since(t))
 	t = time.Now()
 }
