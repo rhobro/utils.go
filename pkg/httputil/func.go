@@ -5,7 +5,7 @@
  *
  * Project: goutils
  * File Name: func.go
- * Last Modified: 28/01/2021, 19:45
+ * Last Modified: 29/01/2021, 21:40
  */
 
 package httputil
@@ -13,7 +13,7 @@ package httputil
 import (
 	"errors"
 	"fmt"
-	"github.com/Bytesimal/goutils/pkg/util"
+	"github.com/rhobro/goutils/pkg/util"
 	"math"
 	"net/http"
 	"strconv"

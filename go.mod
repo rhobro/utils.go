@@ -1,4 +1,4 @@
-module github.com/Bytesimal/goutils
+module github.com/rhobro/goutils
 
 go 1.15
 
