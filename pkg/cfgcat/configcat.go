@@ -5,7 +5,7 @@
  *
  * Project: goutils
  * File Name: configcat.go
- * Last Modified: 02/02/2021, 09:44
+ * Last Modified: 02/02/2021, 09:57
  */
 
 package cfgcat
@@ -18,4 +18,8 @@ var C *configcat.Client
 
 func Init(key string) {
 	C = configcat.NewClient(key)
+}
+
+func InitCustom(cfg configcat.Config) {
+	C = configcat.NewCustomClient(cfg)
 }
