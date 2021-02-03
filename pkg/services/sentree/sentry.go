@@ -5,7 +5,7 @@
  *
  * Project: goutils
  * File Name: sentry.go
- * Last Modified: 03/02/2021, 20:46
+ * Last Modified: 03/02/2021, 22:06
  */
 
 package sentree
@@ -27,4 +27,14 @@ func Init(opt sentry.ClientOptions, verbose bool) {
 	if verbose {
 		log.Print("{sentry} connected")
 	}
+}
+
+func LogCaptureErr(err error) {
+	C.CaptureException(err, nil, nil)
+	log.Print(err)
+}
+
+func FatalCaptureErr(err error) {
+	C.CaptureException(err, nil, nil)
+	log.Fatal(err)
 }
