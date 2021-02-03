@@ -5,10 +5,10 @@
  *
  * Project: goutils
  * File Name: sentry.go
- * Last Modified: 03/02/2021, 20:37
+ * Last Modified: 03/02/2021, 20:43
  */
 
-package sentry
+package sentree
 
 import (
 	"github.com/getsentry/sentry-go"
@@ -21,10 +21,10 @@ func Init(opt sentry.ClientOptions, verbose bool) {
 	var err error
 	C, err = sentry.NewClient(opt)
 	if err != nil {
-		log.Fatalf("can't connect to sentry: %s", err)
+		log.Fatalf("can't connect to sentree: %s", err)
 	}
 
 	if verbose {
-		log.Print("{sentry} connected")
+		log.Print("{sentree} connected")
 	}
 }
