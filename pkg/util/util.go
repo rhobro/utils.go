@@ -1,9 +1,20 @@
+/*
+ * Copyright © 2021 NeuroByte Tech. All rights reserved.
+ *
+ * NeuroByte Tech is the Developer Company of Rohan Mathew.
+ *
+ * Project: goutils
+ * File Name: util.go
+ * Last Modified: 27/03/2021, 21:06
+ */
+
 package util
 
 import (
 	"errors"
 	"log"
 	"math/rand"
+	"sync"
 	"time"
 
 	"github.com/pariz/gountries"
@@ -11,10 +22,17 @@ import (
 
 func init() {
 	now := time.Now().UnixNano()
-	Rand = rand.New(rand.NewSource(now))
+	r = rand.New(rand.NewSource(now))
 }
 
-var Rand *rand.Rand
+var mtx sync.Mutex
+var r *rand.Rand
+
+func Rand() *rand.Rand {
+	mtx.Lock()
+	defer mtx.Unlock()
+	return r
+}
 
 func Check(err error) {
 	if err != nil {
