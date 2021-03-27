@@ -5,7 +5,7 @@
  *
  * Project: goutils
  * File Name: util.go
- * Last Modified: 27/03/2021, 21:06
+ * Last Modified: 27/03/2021, 21:16
  */
 
 package util
@@ -13,26 +13,9 @@ package util
 import (
 	"errors"
 	"log"
-	"math/rand"
-	"sync"
-	"time"
 
 	"github.com/pariz/gountries"
 )
-
-func init() {
-	now := time.Now().UnixNano()
-	r = rand.New(rand.NewSource(now))
-}
-
-var mtx sync.Mutex
-var r *rand.Rand
-
-func Rand() *rand.Rand {
-	mtx.Lock()
-	defer mtx.Unlock()
-	return r
-}
 
 func Check(err error) {
 	if err != nil {
