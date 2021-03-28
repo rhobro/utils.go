@@ -1,3 +1,13 @@
+/*
+ * Copyright © 2021 NeuroByte Tech. All rights reserved.
+ *
+ * NeuroByte Tech is the Developer Company of Rohan Mathew.
+ *
+ * Project: goutils
+ * File Name: tmp.go
+ * Last Modified: 28/03/2021, 12:43
+ */
+
 package fileio
 
 import (
@@ -38,4 +48,8 @@ func TmpPath(path string) (string, error) {
 	}
 
 	return filepath.Join(totPath...), nil
+}
+
+func Close() {
+	_ = os.RemoveAll(TmpDir)
 }
