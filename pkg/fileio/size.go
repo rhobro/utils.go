@@ -5,26 +5,37 @@
  *
  * Project: goutils
  * File Name: size.go
- * Last Modified: 25/05/2021, 21:00
+ * Last Modified: 25/05/2021, 21:16
  */
 
 package fileio
 
 import (
 	"os"
-	"path/filepath"
 )
 
-func DirSize(path string) (int64, error) {
-	var size int64
-	err := filepath.Walk(path, func(_ string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-		if !info.IsDir() {
+func DirSize(path string) (size int64, err error) {
+	entries, err := os.ReadDir(path)
+
+	for _, entry := range entries {
+		if entry.IsDir() {
+			// recurse
+			sz, err := DirSize(entry.Name())
+			if err != nil {
+				return 0, err
+			}
+
+			size += sz
+
+		} else {
+			// file
+			info, err := entry.Info()
+			if err != nil {
+				return 0, err
+			}
+
 			size += info.Size()
 		}
-		return err
-	})
-	return size, err
+	}
+	return
 }
