@@ -5,7 +5,7 @@
  *
  * Project: goutils
  * File Name: tmp.go
- * Last Modified: 28/03/2021, 12:43
+ * Last Modified: 26/06/2021, 22:21
  */
 
 package fileio
@@ -42,12 +42,13 @@ func TmpPath(path string) (string, error) {
 		totPath[i+1] = pthSplit[i]
 	}
 
-	err := os.MkdirAll(filepath.Join(totPath[:len(totPath)-1]...), 0700)
+	s := filepath.Join(totPath...)
+	err := os.MkdirAll(path, 0700)
 	if err != nil {
 		return "", fmt.Errorf("unable to create tmp path: %s", err)
 	}
 
-	return filepath.Join(totPath...), nil
+	return s, nil
 }
 
 func Close() {
