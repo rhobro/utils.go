@@ -1,4 +1,4 @@
-module github.com/rhobro/goutils
+module github.com/rhobro/utils.go
 
 go 1.15
 
