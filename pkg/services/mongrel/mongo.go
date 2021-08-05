@@ -20,5 +20,5 @@ func Init(url string) error {
 }
 
 func ListDatabaseNames() ([]string, error) {
-	return C.ListDatabaseNames(context.Background(), bson.D{})
+	return C.ListDatabaseNames(context.Background(), bson.D{}, nil)
 }
