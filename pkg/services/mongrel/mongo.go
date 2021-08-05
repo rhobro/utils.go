@@ -3,6 +3,7 @@ package mongrel
 import (
 	"context"
 
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -16,4 +17,8 @@ func Init(url string) error {
 		return err
 	}
 	return nil
+}
+
+func ListDatabaseNames() ([]string, error) {
+	return C.ListDatabaseNames(context.Background(), bson.D{})
 }
