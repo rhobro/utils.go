@@ -3,15 +3,14 @@
  *
  * NeuroByte Tech is the Developer Company of Rohan Mathew.
  *
- * Project: goutils
+ * Project: utils.go
  * File Name: sentry.go
- * Last Modified: 24/05/2021, 11:32
+ * Last Modified: 28/08/2021, 13:14
  */
 
 package sentree
 
 import (
-	"github.com/getsentry/sentry-go"
 	"log"
 )
 

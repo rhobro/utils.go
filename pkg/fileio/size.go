@@ -3,7 +3,7 @@
  *
  * NeuroByte Tech is the Developer Company of Rohan Mathew.
  *
- * Project: goutils
+ * Project: utils.go
  * File Name: size.go
  * Last Modified: 25/05/2021, 21:44
  */
