@@ -33,6 +33,20 @@ func Init(satelliteAddr, apiKey string) error {
 	return nil
 }
 
+func ListBuckets() *uplink.BucketIterator {
+	return C.ListBuckets(context.Background(), nil)
+}
+
+func CreateBucket(name string) error {
+	_, err := C.CreateBucket(context.Background(), name)
+	return err
+}
+
+func EnsureBucket(name string) error {
+	_, err := C.EnsureBucket(context.Background(), name)
+	return err
+}
+
 func Download(bucket, id string) (io.Reader, error) {
 	return DownloadWithOptions(bucket, id, nil)
 }
