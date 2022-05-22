@@ -11,6 +11,7 @@
 package sentree
 
 import (
+	"github.com/getsentry/sentry-go"
 	"log"
 )
 

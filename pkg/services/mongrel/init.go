@@ -31,4 +31,6 @@ func Init(url, db string) error {
 	}
 
 	DB = C.Database(db, options.Database())
+
+	return nil
 }

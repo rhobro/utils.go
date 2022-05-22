@@ -10,7 +10,7 @@
 
 package coll
 
-func Index(s []interface{}, x interface{}) int {
+func Index(s interface{}, x interface{}) int {
 	for i, e := range s {
 		if x == e {
 			return i
