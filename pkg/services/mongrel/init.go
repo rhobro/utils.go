@@ -10,7 +10,6 @@
 
 package mongrel
 
-import "C"
 import (
 	"context"
 	"go.mongodb.org/mongo-driver/mongo"

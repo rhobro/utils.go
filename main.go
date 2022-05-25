@@ -13,5 +13,5 @@ package main
 import "github.com/rhobro/utils.go/pkg/services/mongrel"
 
 func main() {
-	mongrel.Init("mongodb+srv://<username>:<password>@mongo.g15ne.mongodb.net/?retryWrites=true&w=majority")
+	mongrel.Init("mongodb+srv://<username>:<password>@mongo.g15ne.mongodb.net/?retryWrites=true&w=majority", "")
 }
